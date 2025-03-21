@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmEdu - Agricultural Courses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0fff0, #e6f5e6);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 80px 0 40px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            color: #2c5f2d;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .courses-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            padding: 40px 0;
+        }
+
+        .course-card {
+            background: linear-gradient(145deg, #ffffff, #f8fff8);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 350px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(44,95,45,0.1);
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(151,188,98,0.1));
+            transform: rotate(45deg);
+            transition: all 0.4s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 12px 32px rgba(44,95,45,0.2);
+        }
+
+        .course-card:hover::before {
+            top: 0;
+            left: 0;
+            transform: rotate(0);
+        }
+
+        .card-icon {
+            font-size: 3.5em;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, #2c5f2d, #97BC62);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .course-card h2 {
+            color: #2c5f2d;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .course-card p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .enroll-btn {
+            background: linear-gradient(45deg, #97BC62, #2c5f2d);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .enroll-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.3),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .enroll-btn:hover::after {
+            left: 100%;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
+        }
+
+        .course-card:nth-child(1) { animation: cardEntrance 0.6s ease-out 0.2s backwards; }
+        .course-card:nth-child(2) { animation: cardEntrance 0.6s ease-out 0.4s backwards; }
+        .course-card:nth-child(3) { animation: cardEntrance 0.6s ease-out 0.6s backwards; }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .course-card {
+                width: 90%;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 Learn Modern Farming</h1>
+            <p>Start your agricultural journey with our expert-led courses</p>
+        </div>
+
+        <div class="courses-container">
+            <a href="beginner-course.html" class="course-card" style="text-decoration: none;">
+                <i class="fas fa-seedling card-icon"></i>
+                <h2>Beginner Level</h2>
+                <p>Master the fundamentals of farming with hands-on lessons in soil preparation, basic crop management, and sustainable practices.</p>
+                <button class="enroll-btn">Start Growing</button>
+            </a>
+
+            <a href="intermediate-course.html" class="course-card" style="text-decoration: none;">
+                <i class="fas fa-tractor card-icon"></i>
+                <h2>Intermediate Level</h2>
+                <p>Advance your skills with crop rotation techniques, pest management, and modern irrigation systems.</p>
+                <button class="enroll-btn">Level Up</button>
+            </a>
+
+            <a href="advanced-course.html" class="course-card" style="text-decoration: none;">
+                <i class="fas fa-chart-line card-icon"></i>
+                <h2>Advanced Level</h2>
+                <p>Professional farming strategies, agricultural economics, and large-scale farm management.</p>
+                <button class="enroll-btn">Go Pro</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

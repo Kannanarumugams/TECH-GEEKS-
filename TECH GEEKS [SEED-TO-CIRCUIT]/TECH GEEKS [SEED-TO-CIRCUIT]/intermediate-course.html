@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermediate Farming Course | FarmEdu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #f8faf7;
+        }
+
+        .course-hero {
+            background: linear-gradient(rgba(44,95,45,0.9), rgba(44,95,45,0.9)),
+                        url('https://images.unsplash.com/photo-1586771107445-d3ca88e3c4a6') center/cover;
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .course-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            margin: 30px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.3s;
+        }
+
+        .video-wrapper:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .curriculum {
+            margin: 40px 0;
+        }
+
+        .module-card {
+            background: #f8faf7;
+            border-left: 4px solid #97BC62;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            transform: translateX(10px);
+        }
+
+        .enrollment-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .price-tag {
+            font-size: 2.5em;
+            color: #2c5f2d;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .enroll-btn {
+            background: linear-gradient(45deg, #97BC62, #2c5f2d);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .enroll-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .course-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .enrollment-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="course-nav">
+        <a href="beginner-course.html">Beginner</a>
+        <a href="intermediate-course.html" class="active">Intermediate</a>
+        <a href="advanced-course.html">Advanced</a>
+    </nav>
+
+    <div class="course-hero" style="background-image: linear-gradient(rgba(44,95,45,0.9), rgba(44,95,45,0.9)), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449')">
+        <div class="course-container">
+            <div>
+                <h1 style="font-size: 2.5em; margin-bottom: 20px;">Intermediate Farming Course</h1>
+                <p style="font-size: 1.2em; margin-bottom: 30px;">Advanced Techniques for Modern Agriculture</p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 20px;">
+                        <i class="fas fa-clock"></i> 8 Weeks
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 20px;">
+                        <i class="fas fa-certificate"></i> Professional Certification
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="course-container">
+        <div class="main-content">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/INTERMEDIATE_VIDEO_ID" 
+                        title="Intermediate Course Introduction" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+
+            <h2 style="color: #2c5f2d; margin-bottom: 30px;">Course Overview</h2>
+            <p style="line-height: 1.7; color: #666; margin-bottom: 40px;">
+                Elevate your farming skills with advanced crop management techniques, precision agriculture fundamentals, 
+                and sustainable farming practices for medium-scale operations.
+            </p>
+
+            <div class="curriculum">
+                <h2 style="color: #2c5f2d; margin-bottom: 30px;">Course Curriculum</h2>
+                <div class="module-card">
+                    <h3>Week 1-2: Advanced Crop Rotation</h3>
+                    <p style="color: #666; margin: 15px 0;">Multi-year rotation planning and implementation</p>
+                </div>
+                <div class="module-card">
+                    <h3>Week 3-4: Integrated Pest Management</h3>
+                    <p style="color: #666; margin: 15px 0;">Biological control methods and monitoring systems</p>
+                </div>
+                <!-- Add more modules -->
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-chart-line" style="font-size: 2em; color: #2c5f2d; margin-bottom: 15px;"></i>
+                    <h3>Yield Optimization</h3>
+                    <p>Advanced techniques for maximizing crop production</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-water" style="font-size: 2em; color: #2c5f2d; margin-bottom: 15px;"></i>
+                    <h3>Irrigation Systems</h3>
+                    <p>Smart water management and drip irrigation</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="enrollment-card">
+            <h3 style="color: #2c5f2d; margin-bottom: 20px;">Enroll Now</h3>
+            <div class="price-tag">$349</div>
+            <ul style="list-style: none; margin: 25px 0;">
+                <li style="margin: 10px 0;"><i class="fas fa-check" style="color: #97BC62;"></i> Field Case Studies</li>
+                <li style="margin: 10px 0;"><i class="fas fa-check" style="color: #97BC62;"></i> Advanced Tools Training</li>
+                <li style="margin: 10px 0;"><i class="fas fa-check" style="color: #97BC62;"></i> Expert Q&A Sessions</li>
+            </ul>
+            <button class="enroll-btn">Upgrade Skills</button>
+        </div>
+    </div>
+</body>
+</html>

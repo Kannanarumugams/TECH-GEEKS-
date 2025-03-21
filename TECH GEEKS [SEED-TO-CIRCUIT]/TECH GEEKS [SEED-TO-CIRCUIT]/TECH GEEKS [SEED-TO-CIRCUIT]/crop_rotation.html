@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeepSoil Crop Rotation Planner</title>
+    <style>
+        :root {
+            --deep-green: #0D2818;
+            --forest: #1B4332;
+            --sun-yellow: #FFD700;
+            --cream: #F8F9FA;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            background: linear-gradient(45deg, #0D2818, #1B4332);
+            color: var(--cream);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.2s forwards;
+        }
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .nutrient-orb {
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: orbEntrance 0.6s forwards;
+        }
+
+        .nutrient-orb:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(255,215,0,0.2);
+        }
+
+        .orb-fill {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            clip-path: inset(0 0 0 0);
+            background: conic-gradient(
+                var(--sun-yellow) 0%,
+                transparent 0%
+            );
+            transition: var(--transition);
+        }
+
+        .orb-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .orb-value {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--sun-yellow), #F8F9FA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ai-report {
+            background: linear-gradient(160deg, #1B4332, #0D2818);
+            border-radius: 2rem;
+            padding: 3rem;
+            margin-top: 4rem;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: reportEntrance 0.8s 0.4s forwards;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .report-item {
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideIn 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes orbEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes reportEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .glow-bar {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,215,0,0.1),
+                transparent
+            );
+            animation: glowSweep 8s infinite;
+        }
+
+        @keyframes glowSweep {
+            50% { left: 140%; }
+        }
+
+        .status-pulse {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            animation: pulse 2s infinite;
+            background: var(--sun-yellow);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,215,0,0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(255,215,0,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,215,0,0); }
+        }
+        .input-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--sun-yellow);
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--forest);
+            border-radius: 0.5rem;
+            color: var(--cream);
+            font-size: 1rem;
+        }
+
+        .analyze-btn {
+            grid-column: span 4;
+            background: var(--sun-yellow);
+            color: var(--deep-green);
+            border: none;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .analyze-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--sun-yellow);">
+                🌾 Crop Rotation Advisor
+            </h1>
+            <p class="subtitle">AI-Powered Sustainable Farming Planner</p>
+        </div>
+
+        <div class="input-panel">
+            <div class="input-group">
+                <label>Previous Crop</label>
+                <select id="previousCrop">
+                    <option value="wheat">Wheat</option>
+                    <option value="rice">Rice</option>
+                    <option value="corn">Corn</option>
+                    <option value="soybean">Soybean</option>
+                    <option value="cotton">Cotton</option>
+                    <option value="barley">Barley</option>
+                    <option value="oats">Oats</option>
+                    <option value="sorghum">Sorghum</option>
+                    <option value="sugarcane">Sugarcane</option>
+                    <option value="potato">Potato</option>
+                    <option value="tomato">Tomato</option>
+                    <option value="cabbage">Cabbage</option>
+                    <option value="carrot">Carrot</option>
+                    <option value="onion">Onion</option>
+                    <option value="garlic">Garlic</option>
+                    <option value="pepper">Pepper</option>
+                    <option value="eggplant">Eggplant</option>
+                    <option value="cucumber">Cucumber</option>
+                    <option value="pumpkin">Pumpkin</option>
+                    <option value="watermelon">Watermelon</option>
+                    <option value="melon">Melon</option>
+                    <option value="strawberry">Strawberry</option>
+                    <option value="blueberry">Blueberry</option>
+                    <option value="grape">Grape</option>
+                    <option value="apple">Apple</option>
+                    <option value="pear">Pear</option>
+                    <option value="peach">Peach</option>
+                    <option value="plum">Plum</option>
+                    <option value="cherry">Cherry</option>
+                    <option value="almond">Almond</option>
+                    <option value="sunflower">Sunflower</option>
+                    <option value="canola">Canola</option>
+                    <option value="mustard">Mustard</option>
+                    <option value="pea">Pea</option>
+                    <option value="bean">Bean</option>
+                    <option value="lentil">Lentil</option>
+                    <option value="chickpea">Chickpea</option>
+                    <option value="alfalfa">Alfalfa</option>
+                    <option value="clover">Clover</option>
+                    <option value="tobacco">Tobacco</option>
+                    <option value="tea">Tea</option>
+                    <option value="coffee">Coffee</option>
+                    <option value="cocoa">Cocoa</option>
+                    <option value="banana">Banana</option>
+                    <option value="pineapple">Pineapple</option>
+                    <option value="mango">Mango</option>
+                    <option value="papaya">Papaya</option>
+                    <option value="avocado">Avocado</option>
+                    <option value="olive">Olive</option>
+                    <option value="cashew">Cashew</option>
+                    <option value="pistachio">Pistachio</option>
+                    <option value="walnut">Walnut</option>
+                    <option value="pecan">Pecan</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Nitrogen (N) ppm</label>
+                <input type="number" id="nValue" step="0.1" value="45">
+            </div>
+            <div class="input-group">
+                <label>Phosphorus (P) ppm</label>
+                <input type="number" id="pValue" step="0.1" value="30">
+            </div>
+            <div class="input-group">
+                <label>Potassium (K) ppm</label>
+                <input type="number" id="kValue" step="0.1" value="50">
+            </div>
+            <button class="analyze-btn" onclick="generateAnalysis()">
+                🌱 Generate Rotation Plan
+            </button>
+        </div>
+
+        <div class="sensor-grid" id="sensorData"></div>
+
+        <div class="ai-report" id="aiAnalysis">
+            <div class="glow-bar"></div>
+            <div class="report-header">
+                <h2 style="font-size: 1.8rem; color: var(--sun-yellow);">
+                    📑 Rotation Strategy Report
+                </h2>
+                <div class="status-pulse"></div>
+            </div>
+            <div id="reportContent"></div>
+        </div>
+    </div>
+
+<script>
+const GEMINI_API_KEY = 'AIzaSyDgqAoyLWk6Du7xTgXzghX2TtcE4N646Nk';
+
+function generateAnalysis() {
+    const npkValues = {
+        n: parseFloat(document.getElementById('nValue').value),
+        p: parseFloat(document.getElementById('pValue').value),
+        k: parseFloat(document.getElementById('kValue').value),
+        previousCrop: document.getElementById('previousCrop').value
+    };
+
+    if(isNaN(npkValues.n) || isNaN(npkValues.p) || isNaN(npkValues.k)) {
+        alert("Please enter valid NPK values");
+        return;
+    }
+
+    renderOrbs(npkValues);
+    generateRotationPlan(npkValues);
+}
+
+function renderOrbs(npk) {
+    const sensorDiv = document.getElementById("sensorData");
+    
+    sensorDiv.innerHTML = `
+        ${createOrb('Nitrogen', npk.n, 0.1)}
+        ${createOrb('Phosphorus', npk.p, 0.3)}
+        ${createOrb('Potassium', npk.k, 0.5)}
+    `;
+
+    document.querySelectorAll('.orb-fill').forEach((orb, index) => {
+        const values = [npk.n, npk.p, npk.k];
+        setTimeout(() => {
+            orb.style.background = `conic-gradient(
+                ${getStatusColor(values[index])} ${values[index]}%,
+                rgba(255,255,255,0.1) 0%
+            )`;
+        }, index * 200);
+    });
+}
+
+async function generateRotationPlan(npk) {
+    const prompt = `Create a crop rotation plan based on:
+        Previous Crop: ${npk.previousCrop}
+        Soil NPK Levels - N:${npk.n}ppm P:${npk.p}ppm K:${npk.k}ppm
+        
+        Provide markdown format response with:
+        # Crop Rotation Strategy
+        ## Soil Analysis
+        - Nutrient status explanation
+        ## Recommended Crops (3-4 options)
+        - Compatibility with previous crop
+        - Nutritional needs matching
+        ## Rotation Benefits
+        - Soil health improvements
+        - Pest/disease prevention
+        ## Implementation Plan
+        - Seasonal schedule
+        - Intercropping suggestions
+        Include emojis in section headers.`;
+
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+            })
+        });
+
+        const data = await response.json();
+        const report = data.candidates[0].content.parts[0].text;
+        formatReport(report);
+    } catch (error) {
+        document.getElementById("aiAnalysis").innerHTML = `
+            <div class="report-item error">
+                ⚠️ AI Analysis Module Unavailable
+            </div>
+        `;
+    }
+}
+
+function createOrb(label, value, delay) {
+    return `
+        <div class="nutrient-orb" style="animation-delay: ${delay}s">
+            <div class="orb-fill"></div>
+            <div class="orb-content">
+                <div class="orb-value">${value}</div>
+                <div class="orb-label">${label}</div>
+            </div>
+        </div>
+    `;
+}
+
+function formatReport(markdown) {
+    const reportDiv = document.getElementById("reportContent");
+    const sections = markdown.split('## ');
+    let html = '';
+
+    sections.forEach((section, index) => {
+        if (index === 0) return; // Skip title
+
+        const [heading, ...content] = section.split('\n');
+        html += `
+            <div class="report-item" style="animation-delay: ${index * 0.2}s">
+                <h3 style="color: var(--sun-yellow); margin-bottom: 1rem;">${heading}</h3>
+                ${content.map(line => `
+                    <p style="line-height: 1.6; margin: 0.8rem 0;">
+                        ${line.replace('- ', '✦ ')}
+                    </p>
+                `).join('')}
+            </div>
+        `;
+    });
+
+    reportDiv.innerHTML = html;
+    document.querySelectorAll('.report-item').forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.2}s`;
+    });
+}
+
+function getStatusColor(value) {
+    if (value < 30) return '#FF6B6B'; // Red for low values
+    if (value > 70) return '#FFD700'; // Yellow for high values
+    return '#90D26D'; // Green for optimal values
+}
+</script>
+</body>
+</html>

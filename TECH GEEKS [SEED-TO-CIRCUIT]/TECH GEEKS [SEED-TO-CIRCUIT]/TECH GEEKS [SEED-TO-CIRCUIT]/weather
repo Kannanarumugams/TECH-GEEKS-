@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: calc(100% - 22px);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .weather-result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .weather-result p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+        <form id="weatherForm">
+            <label for="city">Enter City Name:</label>
+            <input type="text" id="city" placeholder="e.g., London" required>
+            <button type="submit">Get Weather</button>
+        </form>
+        <div id="weatherResult" class="weather-result">
+            <!-- Weather information will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for fetching weather data
+        document.getElementById('weatherForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            const city = document.getElementById('city').value;
+            const apiKey = '647e990dc0844e65a63102000251103'; // Replace with your API key
+            const apiUrl = https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city};
+
+            // Fetch weather data
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const weatherResult = document.getElementById('weatherResult');
+                    if (data.error) {
+                        // Display error message
+                        weatherResult.innerHTML = <p style="color: red;">Error: ${data.error.message}</p>;
+                    } else {
+                        // Display weather information
+                        const location = data.location.name;
+                        const temperature = data.current.temp_c;
+                        const condition = data.current.condition.text;
+                        const icon = data.current.condition.icon;
+                        weatherResult.innerHTML = `
+                            <p><strong>Location:</strong> ${location}</p>
+                            <p><strong>Temperature:</strong> ${temperature}°C</p>
+                            <p><strong>Condition:</strong> ${condition}</p>
+                            <img src="${icon}" alt="${condition}">
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                    document.getElementById('weatherResult').innerHTML = <p style="color: red;">Failed to fetch weather data. Please try again.</p>;
+                });
+        });
+    </script>
+</body>
+</html>
