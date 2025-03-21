@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Stores - S2C Partner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2E7D32; /* Green theme */
+            --secondary-color: #81C784; /* Light green */
+            --light-color: #F8F9FA; /* White background */
+        }
+
+        body {
+            background-color: var(--light-color);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+        }
+
+        .store-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .store-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .store-card h5 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .store-card p {
+            margin: 5px 0;
+        }
+
+        .btn-visit {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-visit:hover {
+            background-color: #1B5E20; /* Darker green */
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .store-card {
+                padding: 15px;
+            }
+
+            .store-card h5 {
+                font-size: 1.2rem;
+            }
+
+            .btn-visit {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">S2C Partner</a>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">Welcome, Farmer</span>
+                <a href="#" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Nearby Stores</h2>
+        <div class="row" id="storeList">
+            <!-- Stores will be dynamically added here -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample Data for Nearby Stores
+        const stores = [
+            {
+                id: 1,
+                name: "Green Agro Center",
+                location: "Village Farmland, Maharashtra",
+                address: "Near Bus Stand, Village Farmland, Maharashtra",
+                type: "Fertilizer Shop"
+            },
+            {
+                id: 2,
+                name: "Seed World",
+                location: "Green Valley, Maharashtra",
+                address: "Opposite Post Office, Green Valley, Maharashtra",
+                type: "Seed Shop"
+            },
+            {
+                id: 3,
+                name: "Pesticide Hub",
+                location: "Sunny Fields, Maharashtra",
+                address: "Near Railway Station, Sunny Fields, Maharashtra",
+                type: "Pesticide Shop"
+            },
+            {
+                id: 4,
+                name: "Agri Solutions",
+                location: "Farmers Colony, Maharashtra",
+                address: "Main Road, Farmers Colony, Maharashtra",
+                type: "Fertilizer Shop"
+            }
+        ];
+
+        // Render Stores
+        function renderStores() {
+            const storeList = document.getElementById("storeList");
+            storeList.innerHTML = ""; // Clear existing content
+            stores.forEach((store, index) => {
+                const storeCard = document.createElement("div");
+                storeCard.className = "col-md-6 mb-4 fade-in";
+                storeCard.innerHTML = `
+                    <div class="store-card">
+                        <h5>${store.name}</h5>
+                        <p><strong>Location:</strong> ${store.location}</p>
+                        <p><strong>Address:</strong> ${store.address}</p>
+                        <p><strong>Type:</strong> ${store.type}</p>
+                        <div class="text-center">
+                            <button class="btn btn-visit" onclick="visitStore(${store.id})">Visit Store</button>
+                        </div>
+                    </div>
+                `;
+                storeList.appendChild(storeCard);
+            });
+        }
+
+        // Visit Store (Redirect to Next Page)
+        function visitStore(storeId) {
+            // Redirect to the store's page (replace with actual URL)
+            window.location.href = `store_details.html?id=${storeId}`;
+        }
+
+        // Initial Render
+        document.addEventListener("DOMContentLoaded", () => {
+            renderStores();
+        });
+    </script>
+</body>
+</html>

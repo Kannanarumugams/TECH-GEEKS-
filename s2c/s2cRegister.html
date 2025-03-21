@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S2C Partner - Registration</title>
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --secondary-green: #81C784;
+            --background-white: #F8F9FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .registration-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 1rem;
+        }
+
+        .logo-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-header h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-header p {
+            color: #666;
+        }
+
+        .form-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-green);
+            box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
+        }
+
+        .password-strength {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .show-password {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .register-btn:hover {
+            background-color: #1B5E20;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .login-link a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .form-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .registration-container {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <div class="logo-header">
+            <h1>Create Account</h1>
+            <p>Join the Seed to Circuit Partnership Network</p>
+        </div>
+
+        <form id="registrationForm" action="register.php" method="POST">
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="full_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="mail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="pass" required>
+                    <div class="password-strength" id="passwordStrength"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <select id="location" name="location" required>
+                        <option value="">Select Location</option>
+                        <option>Ariyalur</option>
+                        <option>Chengalpattu</option>
+                        <option>Chennai</option>
+                        <option>Coimbatore</option>
+                        <option>Cuddalore</option>
+                        <option>Dharmapuri</option>
+                        <option>Dindigul</option>
+                        <option>Erode</option>
+                        <option>Kallakurichi</option>
+                        <option>Kanchipuram</option>
+                        <option>Kanyakumari</option>
+                        <option>Karur</option>
+                        <option>Krishnagiri</option>
+                        <option>Madurai</option>
+                        <option>Mayiladuthurai</option>
+                        <option>Nagapattinam</option>
+                        <option>Namakal</option>
+                        <option>Nilgiris</option>
+                        <option>Perambalur</option>
+                        <option>Pudukkottai</option>
+                        <option>Ramanathapuram</option>
+                        <option>Ranipet</option>
+                        <option>Salem</option>
+                        <option>Sivaganga</option>
+                        <option>Tenkasi</option>
+                        <option>Thanjavur</option>
+                        <option>Theni</option>
+                        <option>Thoothukudi</option>
+                        <option>Tiruchirappalli</option>
+                        <option>Tirunelveli</option>
+                        <option>Tirupattur</option>
+                        <option>Tiruppur</option>
+                        <option>Tiruvallur</option>
+                        <option>Tiruvannamalai</option>
+                        <option>Tiruvarur</option>
+                        <option>Vellore</option>
+                        <option>Viluppuram</option>
+                        <option>Virudhunagar</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="storeName">Store Name</label>
+                    <input type="text" id="storeName" name="store_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="storeType">Store Type</label>
+                    <select id="storeType" name="store_type" required>
+                        <option value="">Select Store Type</option>
+                        <option>Fertilizer Shop</option>
+                        <option>Seed Supplier</option>
+                        <option>Pesticide Store</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Store Address</label>
+                <textarea id="address" name="address" rows="3" style="width: 100%; padding: 0.8rem;" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" required> I agree to the Terms & Conditions
+                </label>
+            </div>
+
+            <button type="submit" class="register-btn">Register Now</button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthText = document.getElementById('passwordStrength');
+            let strength = 0;
+
+            if (password.length >= 8) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^A-Za-z0-9]/)) strength++;
+
+            const strengthMessages = ['Very Weak', 'Weak', 'Moderate', 'Strong', 'Very Strong'];
+            strengthText.textContent = `Password Strength: ${strengthMessages[strength]}`;
+            strengthText.style.color = ['#ff0000', '#ff4000', '#ff8000', '#00b300', '#008000'][strength];
+        });
+
+        // Form validation
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Submit the form
+            this.submit();
+        });
+
+        // Show password toggle
+        document.querySelectorAll('input[type="password"]').forEach(input => {
+            const toggle = document.createElement('span');
+            toggle.style.marginLeft = '10px';
+            toggle.style.cursor = 'pointer';
+            toggle.textContent = '👁';
+            
+            toggle.addEventListener('click', () => {
+                const type = input.type === 'password' ? 'text' : 'password';
+                input.type = type;
+            });
+            
+            input.parentNode.appendChild(toggle);
+        });
+    </script>
+</body>
+</html>

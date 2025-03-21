@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Alert System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('https://images.unsplash.com/photo-1584036561566-baf8f5f1b144') center/cover fixed;
+            min-height: 100vh;
+            animation: backgroundZoom 20s infinite alternate;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .title {
+            color: #fff;
+            font-size: 3.5rem;
+            text-shadow: 0 0 15px rgba(255,0,0,0.5);
+            margin-bottom: 2rem;
+            animation: titleGlow 2s infinite alternate;
+        }
+
+        .input-group {
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            color: #333;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input:focus {
+            outline: none;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,0,0,0.4);
+            border: 2px solid #ff4444;
+        }
+
+        button {
+            background: #ff4444;
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: #ff0000;
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 0 30px rgba(255,0,0,0.6);
+        }
+
+        .result-container {
+            margin-top: 3rem;
+            display: none;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .alert-box {
+            background: rgba(255, 0, 0, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            color: white;
+            transform-style: preserve-3d;
+            position: relative;
+            animation: emergencyPulse 1s infinite;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: iconShake 0.5s infinite;
+        }
+
+        .disease-list {
+            list-style: none;
+            font-size: 1.2rem;
+            text-align: left;
+            margin-top: 1rem;
+        }
+
+        .disease-list li {
+            padding: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            transition: background 0.3s;
+        }
+
+        .disease-list li:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+            to { text-shadow: 0 0 25px rgba(255,0,0,0.8); }
+        }
+
+        @keyframes emergencyPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes backgroundZoom {
+            from { background-size: 100%; }
+            to { background-size: 120%; }
+        }
+
+        @keyframes iconShake {
+            0% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+            100% { transform: rotate(-10deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">DISEASE ALERT SYSTEM</h1>
+        
+        <div class="input-group">
+            <input type="text" id="district" placeholder="Enter District" required>
+        </div>
+        
+        <div class="input-group">
+            <input type="text" id="village" placeholder="Enter Village" required>
+        </div>
+        
+        <button onclick="checkDiseases()">CHECK ALERTS</button>
+
+        <div class="result-container" id="resultContainer">
+            <div class="alert-box">
+                <i class="fas fa-exclamation-triangle alert-icon"></i>
+                <h2>EMERGENCY ALERT!</h2>
+                <p>Disease outbreaks detected in your area:</p>
+                <ul class="disease-list" id="diseaseList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkDiseases() {
+            const district = document.getElementById('district').value;
+            const village = document.getElementById('village').value;
+            const resultContainer = document.getElementById('resultContainer');
+            const diseaseList = document.getElementById('diseaseList');
+
+            if (district && village) {
+                // Send data to Flask backend using AJAX
+                fetch('/check_diseases', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ district, village }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        const diseases = data.diseases.length > 0 ? data.diseases : [{ disease: 'No current alerts', time: '' }];
+                        diseaseList.innerHTML = diseases.map(d => `
+                            <li>
+                                <strong>${d.disease}</strong> 
+                                ${d.time ? `(Detected on: ${new Date(d.time).toLocaleString()})` : ''}
+                            </li>
+                        `).join('');
+                        resultContainer.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching data.');
+                });
+            } else {
+                alert('Please enter both district and village!');
+            }
+        }
+    </script>
+</body>
+</html>

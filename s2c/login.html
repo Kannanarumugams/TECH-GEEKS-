@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S2C Partner - Login</title>
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --secondary-green: #81C784;
+            --background-white: #F8F9FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            margin: 1rem;
+        }
+
+        .logo-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-header h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-header p {
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary-green);
+            box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #1B5E20;
+        }
+
+        .additional-links {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .additional-links a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .additional-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 2rem;
+            color: #666;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 2rem;
+            }
+            
+            .logo-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-header">
+            <h1>S2C Partner</h1>
+            <p>Welcome back to Seed to Circuit Partnership</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+
+        <div class="additional-links">
+            <a href="#forgot-password">Forgot Password?</a>
+            <br>
+            <a href="http://localhost/s2c/s2cRegister.html">Create Account</a>  <!-- Add a register route if needed -->
+        </div>
+
+        <div class="footer-text">
+            <p>Connecting Farmers with Agricultural Solutions</p>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Perform form validation
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Redirect to the specified URL after validation
+            window.location.href = 'http://127.0.0.1:5000/dashboard';
+        });
+    </script>
+</body>
+</html>
